@@ -36,10 +36,15 @@ public class RingBuffer {
     }
 
     public Object get() {
-        if(pointerForPut == 0){
+        if (pointerForPut == 0 && pointerForGet == 0) {//no data at all
             throw new EmptyBufferException("no data");
         }
-        pointerForPut--;
+        if (pointerForPut == data.length) {
+            pointerForPut = 0;
+        }
+        if (pointerForGet == data.length) {
+            pointerForGet = 0;
+        }
         return data[pointerForGet++];
     }
 }
